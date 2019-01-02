@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from .models import Post, Tag
-from django.shortcuts import get_object_or_404
+from .utils import ObjectDetailMixin
 # Create your views here.
 
 
@@ -10,17 +10,16 @@ def posts_list(request):
     return render(request, 'blog/index.html', context={'posts': posts})
 
 
-class PostDetail(View):
-    def get(self, request, slug):
-        # post = Post.objects.get(slug__iexact=slug) but the same on the next line with 404 error s exception
-        post = get_object_or_404(Post, slug__iexact=slug)
-        return render(request, 'blog/post_detail.html', context={'post': post})
+#  Обьявил миксин, который рендерит шаблон, аналогичная функция используется и для TagDetail,
+# важен порядок наследования, при наложении значений происходит переопределение
+class PostDetail(ObjectDetailMixin, View):
+    model = Post
+    template = 'blog/post_detail.html'
 
 
-class TagDetail(View):
-    def get(self, request, slug):
-        tag = Tag.objects.get(slug__iexact=slug)
-        return render(request, 'blog/tag_detail.html', context={'tag': tag})
+class TagDetail(ObjectDetailMixin, View):
+    model = Tag
+    template = 'blog/tag_detail.html'
 
 
 def tags_list(request):

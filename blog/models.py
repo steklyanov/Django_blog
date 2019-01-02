@@ -10,9 +10,10 @@ class Post(models.Model):
     date_pub = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField('Tag', blank=True, related_name='posts')
 
+# Форма вывода экземпляра класса
     def __str__(self):
         return '{}'.format(self.title)
-
+#
     def get_absolute_url(self):
         return reverse('post_detail_url', kwargs={'slug': self.slug})
 
