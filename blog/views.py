@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from .models import Post, Tag
-from .utils import ObjectDetailMixin
-from .forms import TagForm
+from .utils import *
+from .forms import TagForm, PostForm
 # Create your views here.
 
 
@@ -18,23 +18,32 @@ class PostDetail(ObjectDetailMixin, View):
     template = 'blog/post_detail.html'
 
 
+class PostCreate(ObjectCreateMixin, View):
+    form_model = PostForm
+    template = 'blog/post_create_form.html'
+
+
 class TagDetail(ObjectDetailMixin, View):
     model = Tag
     template = 'blog/tag_detail.html'
 
 
 # создание тега это отрисовка формы и запись в базу,реализованы вункции get, post
-class TagCreate(View):
-    def get(self, request):
-        form = TagForm()
-        return render(request, 'blog/tag_create.html', context={'form': form})
+# оставил кусок функционала за комментом, что-юы было видно как работает миксин
+class TagCreate(ObjectCreateMixin, View):
 
-    def post(self, request):
-        bound_form = TagForm(request.POST)
-        if bound_form.is_valid():
-            new_tag = bound_form.save()
-            return redirect(new_tag) # меняет последнюю ветку адреса на значение
-        return render(request, 'blog/tag_create.html', context={'form': bound_form})
+    form_model = TagForm
+    template = 'blog/tag_create.html'
+    # def get(self, request):
+    #     form = TagForm()
+    #     return render(request, 'blog/tag_create.html', context={'form': form})
+    #
+    # def post(self, request):
+    #     bound_form = TagForm(request.POST)
+    #     if bound_form.is_valid():
+    #         new_tag = bound_form.save()
+    #         return redirect(new_tag) # меняет последнюю ветку адреса на значение
+    #     return render(request, 'blog/tag_create.html', context={'form': bound_form})
 
 def tags_list(request):
     tags = Tag.objects.all()
