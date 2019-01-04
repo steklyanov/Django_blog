@@ -23,6 +23,12 @@ class PostCreate(ObjectCreateMixin, View):
     template = 'blog/post_create_form.html'
 
 
+class PostUpdate(ObjectUpdateMixin, View):
+    model = Post
+    model_form = PostForm
+    template = 'blog/post_update_form.html'
+
+
 class TagDetail(ObjectDetailMixin, View):
     model = Tag
     template = 'blog/tag_detail.html'
@@ -45,20 +51,10 @@ class TagCreate(ObjectCreateMixin, View):
     #     return render(request, 'blog/tag_create.html', context={'form': bound_form})
 
 
-class TagUpdate(View):
-    def get(self, request, slug):
-        tag = Tag.objects.get(slug__iexact=slug)
-        bound_form = TagForm(instance=tag)
-        return render(request, 'blog/tag_update_form.html', context={'form': bound_form, 'tag': tag})
-
-    def post(self, request, slug):
-        tag = Tag.objects.get(slug__iexact=slug)
-        bound_form = TagForm(request.POST, instance=tag)
-
-        if bound_form.is_valid():
-            new_tag = bound_form.save()
-            return redirect(new_tag)
-        return render(request, 'blog/tag_update_form', context={'form': bound_form, 'tag': tag})
+class TagUpdate(ObjectUpdateMixin, View):
+    model = Tag
+    model_form = TagForm
+    template = 'blog/tag_update_form.html'
 
 
 def tags_list(request):
