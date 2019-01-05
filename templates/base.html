@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <title>
         {% block title %}
             Blog Engine
@@ -45,6 +46,10 @@
     </div>
 </div>
 
+<div class="admin-panel align-items-center">
+    <a href="/admin" class="btn btn-outline-info">Admin</a>
+    {% block admin-panel %}  {% endblock %}
+</div>
 
 </body>
 </html>
