@@ -12,7 +12,7 @@ class ObjectDetailMixin:
 # наследуется во views.py
     def get(self, request, slug):
         obj = get_object_or_404(self.model, slug__iexact=slug)
-        return render(request, self.template, context={self.model.__name__.lower(): obj, 'admin_object': obj})
+        return render(request, self.template, context={self.model.__name__.lower(): obj, 'admin_object': obj, 'detail': True})
 
 
 class ObjectCreateMixin:
