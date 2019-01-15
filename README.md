@@ -1,4 +1,5 @@
-###Simple blog realization with CRUD support
+### Simple blog realization with CRUD support
+
 Stack: _Python 3.6, Django 2.1.4, Bootstrap_
 
 Usage:
